@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Tester</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class = "ayat-wrapper" id="ayat-wrapper">
+        <h2>Quran Tester</h2>
+        <p>Your digital quran teacher &#128366</p>
+                <select name="juz" id="juz" class="juz" style="display:inline">
+                    <option value="select">Select a Juz</option>
+                    <option value="1">Juz 1</option>
+                    <option value="2">Juz 2</option>
+                    <option value="3">Juz 3</option>
+                    <option value="4">Juz 4</option>
+                    <option value="5">Juz 5</option>
+                    <option value="6">Juz 6</option>
+                    <option value="7">Juz 7</option>
+                    <option value="8">Juz 8</option>
+                    <option value="9">Juz 9</option>
+                    <option value="10">Juz 10</option>
+                    <option value="11">Juz 11</option>
+                    <option value="12">Juz 12</option>
+                    <option value="13">Juz 13</option>
+                    <option value="14">Juz 14</option>
+                    <option value="15">Juz 15</option>
+                    <option value="16">Juz 16</option>
+                    <option value="17">Juz 17</option>
+                    <option value="18">Juz 18</option>
+                    <option value="19">Juz 19</option>
+                    <option value="20">Juz 20</option>
+                    <option value="21">Juz 21</option>
+                    <option value="22">Juz 22</option>
+                    <option value="23">Juz 23</option>
+                    <option value="24">Juz 24</option>
+                    <option value="25">Juz 25</option>
+                    <option value="26">Juz 26</option>
+                    <option value="27">Juz 27</option>
+                    <option value="28">Juz 28</option>
+                    <option value="29">Juz 29</option>
+                    <option value="30">Juz 30</option>
+                </select>
+                <input type="checkbox" name="surahRange" id="surahRange" onclick="specificSurahRange()">
+                <label id="surahRangeText" for="surahRange" class="surahRange">Specific Surah Range</label>
+                <select name="surah1" id="surah1" style="display:none">
+                    <option value="select">From Surah</option>
+                </select>
+                <select name="surah2" id="surah2" style="display:none">
+                    <option value="select">To Surah</option>
+                </select>
+                <br>
+                <input type="submit" id="randomAyah" value="Get Random Ayah" class="btn btn-outline-success" onclick="getjuz()" />
+                <input type="submit" id="previousAyah" value="Previous Ayah" class="btn btn-outline-primary" style="display:none" />
+                <input type="submit" id="nextAyah" value="Next Ayah" class="btn btn-outline-primary" style="display:none" />
+        <small id="ayah-info" style = "display:none"></small>
+        <p id="istiadhah" style="display:none">✻  أَعُوْذُ بِاللّٰهِ مِنَ الشَّيْطٰانِ الرَّجِيْمِ  ✻</p>
+        <blockquote id="ayat-text"></blockquote>
+        <small id="revise-list-title"></small>
+        <small id="revise-list"></small>
+        <input type="submit" id="revise" value="Add to Revision List" class="btn btn-warning" style="display:none" clicked="false">
+        <input type="submit" id="endRevision" value="End Revision" class="btn btn-outline-danger" style="display:none">
+        <input type="submit" id="restart" value="Start Again" class="btn btn-outline-success" style="display:none">
+    </div>
+
+    <script>
+        function getjuz() {
+            const inputValue = document.getElementById('juz').value
+            fetch("http://api.alquran.cloud/v1/juz/" + inputValue + "/quran-uthmani" )
+            .then((response) => {
+                if (response.ok) {
+                return response.json();
+                } else {
+                throw new Error("NETWORK RESPONSE ERROR");
+                }
+            })
+            .then(data => {
+                var endButton = false
+                document.getElementById('endRevision').onclick = function() {
+                    endButton = true;
+                }
+                var checkBox = document.getElementById("surahRange");
+                if (checkBox.checked == true){
+                    var selectMenu1 = document.getElementById("surah1");
+                    var selectMenu2 = document.getElementById("surah2");
+                    firstSurahRange = parseInt(selectMenu1.value);
+                    secondSurahRange = parseInt(selectMenu2.value);
+                    const resultRange = range(firstSurahRange, secondSurahRange)
+                    displayJuzAyat(data, resultRange)
+                    result = displayJuzAyat(data, resultRange)
+                 }
+                else {
+                    displayJuzAyat(data)
+                    result = displayJuzAyat(data)
+                } 
+                var prevAyahButton = document.getElementById("previousAyah")
+                var nextAyahButton = document.getElementById("nextAyah")
+                var reviseButton = document.getElementById("revise")
+                var endButton = document.getElementById("endRevision")
+                reviseButton.style.display = "inline";
+                endButton.style.display = "inline";
+
+                
+                var reviseArray1 = []
+                var reviseButton = document.getElementById("revise")
+                reviseButton.removeAttribute('disabled')
+                if (reviseButton.getAttribute('clicked') == "true") {
+                    reviseArray1 = reviseArray2
+                }
+                reviseButton.onclick = function() {
+                    reviseButton.setAttribute('clicked', 'true')
+                    reviseArray1.push(result[2])
+                    reviseArray2 = reviseArray1
+                    reviseButton.setAttribute('disabled', '')
+                    return reviseArray2
+                }
+                
+                prevAyahButton.removeAttribute('disabled') 
+
+                prevAyahButton.onclick = function() {
+                        prevAyah = result[0][randomNo - 1];
+                        prevAyahNo = String(prevAyah.numberInSurah);
+                        prevAyahText = prevAyah.text + " (" + prevAyahNo.toArabicDigits() + ") ";
+                        ayahDiv = document.getElementById("ayat-text");
+                        ayahDiv = ayahDiv.prepend(prevAyahText)
+                        prevAyahButton.setAttribute('disabled', '')
+                }
+
+                nextAyahButton.removeAttribute('disabled') 
+                let firstAyahDone = false
+                var i = 1
+
+                nextAyahButton.onclick = function() {
+                    while (i <= result[1]) {
+                        originalAyah = result[0][randomNo]
+                        newAyah = result[0][randomNo + i];
+                        ayahDiv = document.getElementById("ayat-text");
+
+
+
+                        if (newAyah.surah["number"] != originalAyah.surah["number"] && firstAyahDone != true) {
+                            const para = document.createElement("p");
+                            para.innerHTML = "\nSurah " + newAyah.surah["englishName"];
+                            document.getElementById("ayat-text").appendChild(para);
+                            newAyahNo = String(newAyah.numberInSurah);
+                            newAyahText = newAyah.text + " (" + newAyahNo.toArabicDigits() + ") ";
+                            ayahDiv = document.getElementById("ayat-text");
+                            ayahDiv = ayahDiv.append(newAyahText);
+                            i ++
+                            firstAyahDone = true
+                        }
+                        else {
+                            newAyahNo = String(newAyah.numberInSurah);
+                            newAyahText = newAyah.text + " (" + newAyahNo.toArabicDigits() + ") ";
+                            ayahDiv = document.getElementById("ayat-text");
+                            ayahDiv = ayahDiv.append(newAyahText);
+                            i ++
+                        }
+
+                        break
+                    }
+                    if (i > result[1]) {
+                        nextAyahButton.setAttribute('disabled', '') 
+                    }
+            
+                } 
+
+                endButton.onclick = function(){
+                    document.getElementById("randomAyah").style.display = "none";
+                    nextAyahButton.style.display = "none";
+                    reviseButton.style.display = "none";
+                    prevAyahButton.style.display = "none";
+                    document.getElementById("ayah-info").style.display = "none";
+                    document.getElementById("ayat-text").style.display = "none";
+                    endButton.style.display = "none"
+                    document.getElementById("surah1").style.display = "none";
+                    document.getElementById("surah2").style.display = "none";
+                    document.getElementById("surahRange").style.display = "none";
+                    document.getElementById("surahRangeText").style.display = "none";
+                    document.getElementById("juz").style.display = "none";
+                    document.getElementById("istiadhah").style.display = "none";
+                    if (reviseButton.getAttribute('clicked') == "true") {
+                        var title = document.getElementById("revise-list-title");
+                        title.innerHTML = "BarakAllahufeek! &#11088; You may want to revise over:";
+                        let ul = document.createElement('ul')
+                        for (let i=0; i<reviseArray2.length; i++) {
+                            let li = document.createElement('li');
+                            li.textContent = reviseArray2[i];
+                            ul.appendChild(li)
+                        }
+                        document.getElementById("revise-list").appendChild(ul)
+                             
+                    }
+                    else {
+                        var title = document.getElementById("revise-list-title");
+                        title.innerHTML = "BarakAllahufeek! Keep it up &#11088;";
+                    }
+                    document.getElementById("restart").style.display = "inline";
+                    
+                }
+                restartButton = document.getElementById("restart")
+                restartButton.onclick = function() {
+                    location.reload()
+                }
+                      
+                } )
+            .catch((error) => console.error("FETCH ERROR:", error));
+        }
+        function displayJuzAyat(data, resultRange) {
+            if (resultRange === undefined) {
+                randomNo = Math.floor(Math.random() * data.data.ayahs.length)
+                generatedAyat = data.data.ayahs[randomNo]
+
+                generatedAyatSurahNo = generatedAyat.surah['number']
+                var randomNoOfAyahs = Math.floor(Math.random() * 6) + 5;
+                var ayahDiv = document.getElementById("ayat-text");
+                ayahNo = String(generatedAyat.numberInSurah)
+                const ayat = generatedAyat.text + " (" + ayahNo.toArabicDigits() + ") ";
+                var ayahInfo = document.getElementById("ayah-info")
+                document.getElementById("istiadhah").style.display = "block";
+                ayahInfo.style.display = "block";
+                const surahName = generatedAyat.surah.englishName
+                ayahDiv.innerHTML = ayat
+                ayahInfo.innerHTML = "Read " + randomNoOfAyahs + " ayahs from Surah " + surahName + ", " + "Ayah " + ayahNo
+                reviseInfo = "Surah " + surahName + ", " + "Ayah " + ayahNo
+
+                var nextAyah = document.getElementById("nextAyah")
+                var prevAyah = document.getElementById("previousAyah")
+                nextAyah.style.display = "inline"
+                prevAyah.style.display = "inline"
+                
+
+                return [data.data.ayahs, randomNoOfAyahs, reviseInfo]
+            }
+            else {
+                specificSurahArray = []
+                for (const obj of data.data.ayahs) {
+                    if (resultRange.includes(obj.surah["number"])) {
+                        specificSurahArray.push(obj)
+                    }
+                }
+                randomNo = Math.floor(Math.random() * specificSurahArray.length)
+                generatedAyat = specificSurahArray[randomNo]
+
+                generatedAyatSurahNo = generatedAyat.surah['number']
+                var randomNoOfAyahs = Math.floor(Math.random() * 6) + 5;
+                var ayahDiv = document.getElementById("ayat-text");
+                ayahNo = String(generatedAyat.numberInSurah)
+                const ayat = generatedAyat.text + " (" + ayahNo.toArabicDigits() + ") ";
+                var ayahInfo = document.getElementById("ayah-info")
+                document.getElementById("istiadhah").style.display = "block";
+                ayahInfo.style.display = "block";
+                const surahName = generatedAyat.surah.englishName
+                ayahDiv.innerHTML = ayat
+                ayahInfo.innerHTML = "Read " + randomNoOfAyahs + " ayahs from Surah " + surahName + ", " + "Ayah " + ayahNo
+                reviseInfo = "Surah " + surahName + ", " + "Ayah " + ayahNo
+
+                var nextAyah = document.getElementById("nextAyah")
+                var prevAyah = document.getElementById("previousAyah")
+                nextAyah.style.display = "inline"
+                prevAyah.style.display = "inline"
+
+                return [specificSurahArray, randomNoOfAyahs, reviseInfo]
+            }
+        }
+        function specificSurahRange() {
+            var checkBox = document.getElementById("surahRange");
+            var selectMenu1 = document.getElementById("surah1");
+            var selectMenu2 = document.getElementById("surah2");
+            surahsInJuz = {
+                1: [1, 2],
+                2: [2],
+                3: [2, 3],
+                4: [3, 4],
+                5: [4],
+                6: [4, 5],
+                7: [5, 6],
+                8: [6, 7],
+                9: [7, 8],
+                10: [8, 9],
+                11: [9, 10, 11],
+                12: [11, 12],
+                13: [12, 13, 14],
+                14: [15, 16],
+                15: [17, 18],
+                16: [18, 19, 20],
+                17: [21, 22],
+                18: [23, 24, 25],
+                19: [25, 26, 27],
+                20: [27, 28, 29],
+                21: [29, 30, 31, 32, 33],
+                22: [33, 34, 35, 36],
+                23: [36, 37, 38, 39],
+                24: [39, 40, 41],
+                25: [41, 42, 43, 44, 45],
+                26: [46, 47, 48, 49, 50],
+                27: [51, 52, 53, 54, 55, 56, 57],
+                28: [58, 59, 60, 61, 62, 63, 64, 65, 66],
+                29: [67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
+                30: [78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114]
+            }
+            if (checkBox.checked == true){
+                const inputValue = document.getElementById('juz').value
+                const surahNos = surahsInJuz[inputValue]
+                fetch("https://api.alquran.cloud/v1/surah" )
+                .then((response) => {
+                    if (response.ok) {
+                    return response.json();
+                    } else {
+                    throw new Error("NETWORK RESPONSE ERROR");
+                    }
+                })
+                .then(data => {
+                    while (selectMenu1.options.length > 1) {
+                        selectMenu1.remove(1);
+                    }
+                    while (selectMenu2.options.length > 1) {
+                        selectMenu2.remove(1);
+                    }
+                    for (const no of surahNos) {
+                        var surahObj = data.data.find(o => o.number === no);
+                        var option1 = document.createElement("option");
+                        option1.text = surahObj.englishName;
+                        option1.value = no;
+                        var option2 = document.createElement("option");
+                        option2.text = surahObj.englishName;
+                        option2.value = no;
+                        selectMenu1.appendChild(option1);
+                        selectMenu2.appendChild(option2);
+                        selectMenu1.style.display = "inline";
+                        selectMenu2.style.display = "inline";
+                    }
+
+
+                })
+                .catch((error) => console.error("FETCH ERROR:", error));
+            } else {
+                selectMenu1.style.display = "none";
+                selectMenu2.style.display = "none";
+            }
+        }
+        function range(start, end) {
+            const rangeArray = []
+            for (let i = start; i <= end; i++){
+                rangeArray.push(i)
+            }
+            return rangeArray
+        }
+        String.prototype.toArabicDigits= function(){
+            var id= ['۰','۱','۲','۳','٤','۵','٦','۷','۸','۹'];
+            return this.replace(/[0-9]/g, function(w){
+            return id[+w]
+            });
+        }
+    </script>
+    
+</body>
+</html>

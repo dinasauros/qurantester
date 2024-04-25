@@ -1,0 +1,168 @@
+
+@font-face {
+    font-family: Amiri;
+    src: url(fonts/Amiri-Regular.ttf), format(truetype);
+}
+:root{
+    --pink-lace: #f5cce8;
+    --plum-web: #ec9ded;
+    --middle-purple: #c880b7;
+    --pearly-purple: #9f6ba0;
+    --dark-purple: #4a2040;
+}
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.2rem;
+    background-color: var(--dark-purple);
+    max-width: 100%;
+}
+.ayat-wrapper{
+    background-color: whitesmoke;
+    width: 65%;
+    border-radius: 20px;
+    padding: 3rem 2rem 1.3rem;
+    -webkit-box-shadow: 0px 2px 15px -5px rgba(0, 0, 0, 0,1);
+    -moz-box-shadow: 0px 2px 15px -5px rgba(0,0,0,1);
+    box-shadow: 0px 2px 15px -5px rgba(0,0,0,1);
+    max-width: 100%;
+    height: 50%;
+}
+.ayat-wrapper p{
+    font-style: italic;
+    font-size: 1rem;
+    max-width: 100%;
+}
+.ayat-wrapper h2{
+    font-size: 2rem;
+    max-width: 100%;
+}
+.ayat-wrapper small{
+    font-weight: 700;
+    margin-top: 1.5rem;
+    display: inline;
+    color: var(--dark-purple);
+    max-width: 100%;
+}
+.ayat-wrapper select#juz {
+    margin-bottom: 10px;
+    margin-top: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: 0;
+    background: var(--pearly-purple);
+    color: #fff;
+    border: 1px solid var(--dark-purple);
+    padding: 4px;
+    border-radius: 10px;
+    width: 150px;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    margin-right: 1rem;
+    max-width: 100%;
+  }
+.ayat-wrapper input {
+    margin-top: 0.5rem;
+    margin-left: 10px;
+    font-size: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 100%;
+}
+.ayat-wrapper blockquote{
+    padding-top: 1rem;
+    font-family: 'Amiri';
+    line-height: 2;
+    max-width: 100%;
+}
+.surahRange {
+    padding:0.3rem;
+    font-size: 1rem;
+    max-width: 100%;
+}
+.ayat-wrapper select#surah1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: 0;
+    background: cadetblue;
+    color: #fff;
+    border: 1px solid rgb(56, 94, 95);
+    padding: 4px;
+    border-radius: 10px;
+    width: 150px;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    margin-left: 0.5rem;
+    max-width: 100%;
+  }
+  .ayat-wrapper select#surah2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: 0;
+    background: cadetblue;
+    color: #fff;
+    border: 1px solid rgb(56, 94, 95);
+    padding: 4px;
+    border-radius: 10px;
+    width: 150px;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    max-width: 100%;
+  }
+  .ayat-wrapper small#revise-list-title {
+    margin-top: 0rem;
+    max-width: 100%;
+  }
+  .ayat-wrapper small#revise-list {
+    display: block;
+    font-weight: 400;
+    margin-top: 0rem;
+    max-width: 100%;
+  }
+  .ayat-wrapper ul {
+    display: inline-block;
+    max-width: 100%;
+  }
+  .ayat-wrapper li {
+    line-height: 1.7;
+    max-width: 100%;
+  }
+  .ayat-wrapper input#revise {
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    max-width: 100%;
+  }
+  .ayat-wrapper input#endRevision {
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    max-width: 100%;
+  }
+  .ayat-wrapper input#restart {
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    max-width: 100%;
+  }
+  .ayat-wrapper p#istiadhah {
+    padding-top: 2rem;
+    font-size: 0.9rem;
+    font-family: 'Amiri';
+    font-style: normal;
+    color:#4a2040
+  }
+  /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    body {
+        min-width: 180%;
+    }
+    .ayat-wrapper
+    {
+        transform: scale(0.5);
+        display:block;
+        width: 800px;
+    }
+}
