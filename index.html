@@ -69,7 +69,7 @@
     <script>
         function getjuz() {
             const inputValue = document.getElementById('juz').value
-            fetch("http://api.alquran.cloud/v1/juz/" + inputValue + "/quran-uthmani" )
+            fetch("https://api.alquran.cloud/v1/juz/" + inputValue + "/quran-uthmani" )
             .then((response) => {
                 if (response.ok) {
                 return response.json();
