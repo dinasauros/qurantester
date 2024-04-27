@@ -135,13 +135,16 @@
 
                 nextAyahButton.onclick = function() {
                     while (i <= result[1]) {
-                        originalAyah = result[0][randomNo]
-                        newAyah = result[0][randomNo + i];
-                        ayahDiv = document.getElementById("ayat-text");
-
-
-
-                        if (newAyah.surah["number"] != originalAyah.surah["number"] && firstAyahDone != true) {
+                        if (i == 1) {
+                            originalAyah = result[0][randomNo]
+                        }
+                        else {
+                            originalAyah = result[0][randomNo + i - 1]
+                        }
+                        newAyah = result[0][randomNo + i]
+                        ayahDiv = document.getElementById("ayat-text")
+                        
+                        if (newAyah.surah["number"] != originalAyah.surah["number"]) {
                             const para = document.createElement("p");
                             para.innerHTML = "\nSurah " + newAyah.surah["englishName"];
                             document.getElementById("ayat-text").appendChild(para);
@@ -150,7 +153,6 @@
                             ayahDiv = document.getElementById("ayat-text");
                             ayahDiv = ayahDiv.append(newAyahText);
                             i ++
-                            firstAyahDone = true
                         }
                         else {
                             newAyahNo = String(newAyah.numberInSurah);
@@ -159,13 +161,11 @@
                             ayahDiv = ayahDiv.append(newAyahText);
                             i ++
                         }
-
                         break
-                    }
+                        }
                     if (i > result[1]) {
-                        nextAyahButton.setAttribute('disabled', '') 
+                    nextAyahButton.setAttribute('disabled', '') 
                     }
-            
                 } 
 
                 endButton.onclick = function(){
